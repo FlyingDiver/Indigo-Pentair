@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+<Devices>
+	<!-- ========================================================================= -->
+	<Device type="relay" id="PoolSpaRelay">
+		<Name>Pool or Spa Relay</Name>
+		<ConfigUI>
+			<Field id="circuitselect" type="menu">
+				<Label>Select Circuit:</Label>
+				<List>
+					<Option value="PUMP">Pool</Option>
+					<Option value="SPA">Spa</Option>
+				</List>
+			</Field>
+		</ConfigUI>
+		<States>
+			<State id="Temperature">
+				<ValueType>Integer</ValueType>
+				<TriggerLabel>Temperature Changed</TriggerLabel>
+				<TriggerLabelPrefix>Temperature Changed To</TriggerLabelPrefix>
+				<ControlPageLabel>Temperature</ControlPageLabel>
+				<ControlPageLabelPrefix>Temperature is</ControlPageLabelPrefix>
+			</State>
+			<State id="SetPoint">
+				<ValueType>Integer</ValueType>
+				<TriggerLabel>Set Point Changed</TriggerLabel>
+				<TriggerLabelPrefix>Set Point Changed To</TriggerLabelPrefix>
+				<ControlPageLabel>Set Point</ControlPageLabel>
+				<ControlPageLabelPrefix>Set Point is</ControlPageLabelPrefix>
+			</State>
+		</States>
+	</Device>
+	
+	<Device type="custom" id="PoolSpaCustom">
+		<Name>Pool or Spa Custom (Displays Temp and Set Point)</Name>
+		<ConfigUI>
+			<Field id="circuitselect" type="menu">
+				<Label>Select Circuit:</Label>
+				<List>
+					<Option value="PUMP">Pool</Option>
+					<Option value="SPA">Spa</Option>
+				</List>
+			</Field>
+		</ConfigUI>
+		<States>
+			<State id="onOffState">
+				<ValueType boolType="OnOff">Boolean</ValueType>
+				<TriggerLabel>Mode Changed</TriggerLabel>
+				<TriggerLabelPrefix>Mode Changed To</TriggerLabelPrefix>
+				<ControlPageLabel>Mode</ControlPageLabel>
+				<ControlPageLabelPrefix>Mode is</ControlPageLabelPrefix>
+			</State>
+			<State id="Temperature">
+				<ValueType>Integer</ValueType>
+				<TriggerLabel>Temperature Changed</TriggerLabel>
+				<TriggerLabelPrefix>Temperature Changed To</TriggerLabelPrefix>
+				<ControlPageLabel>Temperature</ControlPageLabel>
+				<ControlPageLabelPrefix>Temperature is</ControlPageLabelPrefix>
+			</State>
+			<State id="SetPoint">
+				<ValueType>Integer</ValueType>
+				<TriggerLabel>Set Point Changed</TriggerLabel>
+				<TriggerLabelPrefix>Set Point Changed To</TriggerLabelPrefix>
+				<ControlPageLabel>Set Point</ControlPageLabel>
+				<ControlPageLabelPrefix>Set Point is</ControlPageLabelPrefix>
+			</State>
+		</States>
+	</Device>
+	
+	<Device type="relay" id="Circuit">
+		<Name>Auxiliary Circuit</Name>
+		<ConfigUI>
+			<Field id="circuitselect" type="menu">
+				<Label>Select Circuit:</Label>
+				<List>
+					<Option value="AUX1">Aux 1</Option>
+					<Option value="AUX2">Aux 2</Option>
+					<Option value="AUX3">Aux 3</Option>
+					<Option value="AUX4">Aux 4</Option>
+					<Option value="AUX5">Aux 5</Option>
+					<Option value="AUX6">Aux 6</Option>
+					<Option value="AUX7">Aux 7</Option>
+					<Option value="AUX8">Aux 8</Option>
+					<Option value="AUX9">Aux 9</Option>
+					<Option value="AUX10">Aux 10</Option>
+					<Option value="AUX11">Aux 11</Option>
+					<Option value="AUX12">Aux 12</Option>
+					<Option value="AUX13">Aux 13</Option>
+					<Option value="AUX14">Aux 14</Option>
+					<Option value="AUX15">Aux 15</Option>
+					<Option value="AUX16">Aux 16</Option>
+					<Option value="AUX17">Aux 17</Option>
+					<Option value="AUX18">Aux 18</Option>
+					<Option value="AUX19">Aux 19</Option>
+					<Option value="AUX20">Aux 20</Option>
+					<Option value="AUX21">Aux 21</Option>
+					<Option value="AUX22">Aux 22</Option>
+					<Option value="AUX23">Aux 23</Option>
+					<Option value="AUX24">Aux 24</Option>
+					<Option value="AUX25">Aux 25</Option>
+					<Option value="AUX26">Aux 26</Option>
+					<Option value="AUX27">Aux 27</Option>
+					<Option value="AUX28">Aux 28</Option>
+					<Option value="AUX29">Aux 29</Option>
+					<Option value="AUX30">Aux 30</Option>
+					<Option value="AUX31">Aux 31</Option>
+					<Option value="AUX32">Aux 32</Option>
+					<Option value="AUX33">Aux 33</Option>
+					<Option value="AUX34">Aux 34</Option>
+					<Option value="AUX35">Aux 35</Option>
+					<Option value="AUX36">Aux 36</Option>
+					<Option value="AUX37">Aux 37</Option>
+					<Option value="AUX38">Aux 38</Option>
+					<Option value="AUX39">Aux 39</Option>
+					<Option value="AUX40">Aux 40</Option>
+					<Option value="AUX41">Aux 41</Option>
+					<Option value="AUX42">Aux 42</Option>
+					<Option value="AUX43">Aux 43</Option>
+					<Option value="AUX44">Aux 44</Option>
+					<Option value="AUX45">Aux 45</Option>
+					<Option value="AUX46">Aux 46</Option>
+					<Option value="AUX47">Aux 47</Option>
+					<Option value="AUX48">Aux 48</Option>
+					<Option value="AUX49">Aux 49</Option>
+					<Option value="AUX50">Aux 50</Option>
+				</List>
+			</Field>
+		</ConfigUI>
+	</Device>
+</Devices>
+	

@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<Actions>
+	<!-- ========================================================================= -->
+	<Action id="changesetpoint" deviceFilter="indigo.device,self">
+		<Name>Set Temperature Set Point</Name>
+		<CallbackMethod>setSetPoint</CallbackMethod>
+		<ConfigUI>
+			<Field id="newsetpoint" type="label">
+				<Label>Enter the desired set point from 40 (min) to 104 (max) below.</Label>
+			</Field>
+			<Field id="reqtemp" type="textfield">
+				<Label>Desired Temperature:</Label>
+			</Field>
+		</ConfigUI>
+	</Action>
+	<!-- ========================================================================= -->
+	<Action id="setintellibritemode">
+		<Name>Set Intellibrite Mode</Name>
+		<CallbackMethod>setIntellibriteMode</CallbackMethod>
+		<ConfigUI>
+			<Field id="newmode" type="menu">
+				<Label>Choose the desired Intellibrite mode:</Label>
+				<List>
+					<Option value="IB_PARTY">Party</Option>
+					<Option value="IB_ROMANCE">Romance</Option>
+					<Option value="IB_CARIBBEAN">Caribbean</Option>
+					<Option value="IB_AMERICAN">American</Option>
+					<Option value="IB_SUNSET">Sunset</Option>
+					<Option value="IB_ROYALTY">Royalty</Option>
+					<Option value="IB_BLUE">Blue</Option>
+					<Option value="IB_GREEN">Green</Option>
+					<Option value="IB_RED">Red</Option>
+					<Option value="IB_WHITE">White</Option>
+					<Option value="IB_MAGENTA">Magenta</Option>
+				</List>
+			</Field>
+		</ConfigUI>
+	</Action>
+	<!-- ========================================================================= -->
+	<Action id="intellibriteon">
+		<Name>All Intellibrite Lights On</Name>
+		<CallbackMethod>intellibriteOn</CallbackMethod>
+	</Action>
+	<!-- ========================================================================= -->
+	<Action id="intellibriteoff">
+		<Name>All Intellibrite Lights Off</Name>
+		<CallbackMethod>intellibriteOff</CallbackMethod>
+	</Action>
+</Actions>
+	

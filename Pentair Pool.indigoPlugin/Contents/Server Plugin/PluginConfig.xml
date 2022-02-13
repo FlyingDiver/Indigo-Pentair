@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<PluginConfig>
+	<SupportURL>http://www.perceptiveautomation.com/userforum</SupportURL>
+	
+	<Field type="label" id="serialPortLabel">
+		<Label>Select the serial port connected to the Pentair Intellitouch iLink interface:</Label>
+	</Field>
+	
+	<Field type="serialport" id="serialport" />
+	
+	<Field type="separator" id="sep1" />
+	
+	<Field type="checkbox" id="logTemps">
+		<Label>Log Temperature Updates:</Label>
+	</Field>	
+	
+	<Field type="separator" id="sep2" />
+
+	<Field type="checkbox" id="showDebugInfo">
+		<Label>Enable debugging:</Label>
+		<Description>(not recommended)</Description>
+	</Field>
+	
+</PluginConfig>
