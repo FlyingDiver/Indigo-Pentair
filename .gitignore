@@ -124,3 +124,7 @@ dmypy.json
 .pyre/
 
 .DS_Store
+
+Pentair Pool.indigoPlugin.zip
+
+Pentair Pool.indigoPlugin/.idea/

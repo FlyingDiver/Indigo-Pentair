@@ -72,7 +72,7 @@ class Plugin(indigo.PluginBase):
         # Validate that appropriate selections were made in device creation / modification dialogs.
         # Ensure that Zone is not already used
         self.debugLog("Validating Device")
-        self.debugLog(f"Circuit Selected: {valuesDict["circuitselect"]}")
+        self.debugLog(f"Circuit Selected: {valuesDict['circuitselect']}")
         # Logic to see if device is in use
         if valuesDict["circuitselect"] in self.circuitdev:
             self.debugLog("Circuit Already Assigned to Device")
