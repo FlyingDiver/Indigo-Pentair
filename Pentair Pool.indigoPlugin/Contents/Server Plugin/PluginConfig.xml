@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <PluginConfig>
-	<SupportURL>http://www.perceptiveautomation.com/userforum</SupportURL>
+	<SupportURL>https://github.com/FlyingDiver/Indigo-Pentair</SupportURL>
 	
 	<Field type="label" id="serialPortLabel">
 		<Label>Select the serial port connected to the Pentair Intellitouch iLink interface:</Label>

@@ -4,6 +4,7 @@
 # Pentair Pool Plugin for Indigo
 # Developed by Jeremy Swancoat
 # Updated for Indigo 2022 (Python 3) by Joe Keenan
+
 import os
 import sys
 import time
