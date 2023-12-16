@@ -2,20 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>PluginVersion</key>
-	<string>2022.0.1</string>
-	<key>ServerApiVersion</key>
-	<string>3.0.0</string>
-	<key>IwsApiVersion</key>
-	<string>1.0.0</string>
-	<key>CFBundleName</key>
-	<string>Pentair Pool</string>
 	<key>CFBundleDisplayName</key>
 	<string>Pentair Pool</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.jeremyswancoat.indigoplugin.pentairpool</string>
-	<key>CFBundleVersion</key>
-	<string>1.0.0</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -23,5 +13,13 @@
 			<string>http://www.perceptiveautomation.com/userforum/viewforum.php?f=18</string>
 		</dict>
 	</array>
+	<key>CFBundleVersion</key>
+	<string>1.0.0</string>
+	<key>IwsApiVersion</key>
+	<string>1.0.0</string>
+	<key>PluginVersion</key>
+	<string>2023.0.0</string>
+	<key>ServerApiVersion</key>
+	<string>3.0.0</string>
 </dict>
 </plist>

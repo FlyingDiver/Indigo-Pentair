@@ -1,24 +1,69 @@
 <?xml version="1.0"?>
 <PluginConfig>
-	<SupportURL>http://www.perceptiveautomation.com/userforum</SupportURL>
+	<SupportURL>https://github.com/FlyingDiver/Indigo-Pentair</SupportURL>
 	
-	<Field type="label" id="serialPortLabel">
-		<Label>Select the serial port connected to the Pentair Intellitouch iLink interface:</Label>
+	<Field type="label" id="interfaceLabel">
+		<Label>Select the type of interface used to connect to the Pentair system:</Label>
 	</Field>
 	
+	<Field type="menu" id="interface" defaultValue="ilink">
+		<Label>Interface:</Label>
+		<List>
+			<Option value="ilink">Pentair iLink Adapter</Option>
+			<Option value="autelis">Autelis Pool Control</Option>
+		</List>
+	</Field>
+	
+	<Field type="label" id="serialPortLabelIlink" visibleBindingId="interface" visibleBindingValue="ilink">
+		<Label>Select the serial port connected to the Pentair Intellitouch iLink Adapter:</Label>
+	</Field>
+	
+	<Field type="label" id="spaceFill1" visibleBindingId="interface" visibleBindingValue="ilink">
+		<Label>    </Label>
+	</Field>
+	
+	<Field type="label" id="spaceFill2" visibleBindingId="interface" visibleBindingValue="ilink">
+		<Label>    </Label>
+	</Field>
+	
+	<Field type="label" id="serialPortLabelAutelis" visibleBindingId="interface" visibleBindingValue="autelis">
+		<Label>For the Autelis Pool Control, select "Network Socket" as the Connection Type and enter the IP address for the Autelis interface, followed by ":6000" for port 6000.</Label>
+	</Field>
+
 	<Field type="serialport" id="serialport" />
 	
-	<Field type="separator" id="sep1" />
+	<Field type="label" id="spaceFill3" visibleBindingId="interface" visibleBindingValue="ilink">
+		<Label>    </Label>
+	</Field>
 	
+	<Field type="label" id="spaceFill4" visibleBindingId="interface" visibleBindingValue="ilink">
+		<Label>    </Label>
+	</Field>
+	
+	<Field type="label" id="spaceFill5" visibleBindingId="interface" visibleBindingValue="ilink">
+		<Label>    </Label>
+	</Field>	
+	
+	<Field type="textfield" id="autpwd" visibleBindingId="interface" visibleBindingValue="autelis" secure="True">
+		<Label>Autelis Password:</Label>
+	</Field>
+	
+	<Field type="textfield" id="statusPoll" visibleBindingId="interface" visibleBindingValue="autelis" defaultValue = "5">
+		<Label>Polling interval for Intellitouch Panel Status updates (minutes):</Label>
+	</Field>
+	
+	<Field type="textfield" id="chemPoll" visibleBindingId="interface" visibleBindingValue="autelis" defaultValue="2">
+		<Label>Polling interval for Chlorinator Status updates (minutes):</Label>
+	</Field>
+
 	<Field type="checkbox" id="logTemps">
 		<Label>Log Temperature Updates:</Label>
 	</Field>	
 	
-	<Field type="separator" id="sep2" />
+	<Field type="separator" id="sep1" />
 
 	<Field type="checkbox" id="showDebugInfo">
-		<Label>Enable debugging:</Label>
-		<Description>(not recommended)</Description>
+		<Label>Enable debug logging:</Label>
 	</Field>
 	
 </PluginConfig>
