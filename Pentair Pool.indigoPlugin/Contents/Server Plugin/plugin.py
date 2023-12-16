@@ -149,29 +149,23 @@ class Plugin(indigo.PluginBase):
         self.logger.debug("Validating Serial Port")
         self.validateSerialPortUi(valuesDict, errorsDict, "serialport")
 
-        if valuesDict['showDebugInfo']:
-            self.debug = True
-        else:
-            self.debug = False
-
-        if valuesDict['logTemps']:
-            self.logTemps = True
-        else:
-            self.logTemps = False
-
         if len(errorsDict) > 0:
             return False, valuesDict, errorsDict
         return True, valuesDict
 
     def closedPrefsConfigUi(self, valuesDict, userCancelled):
-        # Basically, when the Config box closes, we want another chance to open the serial port.
-        # Since that's all the startup method does, just call it from here.
         self.logger.debug("closedPrefsConfigUI() called")
+        if not userCancelled:
+            if valuesDict['showDebugInfo']:
+                self.debug = True
+            else:
+                self.debug = False
 
-        # Obviously, if the box closes by cancelling, then do nothing.
-        if userCancelled:
-            pass
-        else:
+            if valuesDict['logTemps']:
+                self.logTemps = True
+            else:
+                self.logTemps = False
+
             self.startup()
 
     def runConcurrentThread(self):
