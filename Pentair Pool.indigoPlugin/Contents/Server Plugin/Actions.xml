@@ -1,19 +1,33 @@
 <?xml version="1.0"?>
 <Actions>
 	<!-- ========================================================================= -->
-	<Action id="changesetpoint" deviceFilter="indigo.device,self">
-		<Name>Set Temperature Set Point</Name>
-		<CallbackMethod>setSetPoint</CallbackMethod>
+	<Action id="superChlor">
+		<Name>Super-Chlorinate</Name>
+		<CallbackMethod>superChlor</CallbackMethod>
 		<ConfigUI>
-			<Field id="newsetpoint" type="label">
-				<Label>Enter the desired set point from 40 (min) to 104 (max) below.</Label>
-			</Field>
-			<Field id="reqtemp" type="textfield">
-				<Label>Desired Temperature:</Label>
+			<Field id="hours" type="textfield" defaultValue="24">
+				<Label>Super-Chlorinate for this many hours:</Label>
 			</Field>
 		</ConfigUI>
 	</Action>
 	<!-- ========================================================================= -->
+	<Action id="adjChlor">
+		<Name>Adjust Chlorination</Name>
+		<CallbackMethod>adjChlor</CallbackMethod>
+		<ConfigUI>
+			<Field id="circuit" type="menu" defaultValue="pool">
+				<Label>Select Chorination Cycle:</Label>
+				<List>
+					<Option value="pool">Pool</Option>
+					<Option value="spa">Spa</Option>
+				</List>
+			</Field>
+			<Field id="chlorLevel" type="textfield" defaultValue="50">
+				<Label>Chlorination Rate:</Label>
+			</Field>
+		</ConfigUI>
+	</Action>
+	<!-- ========================================================================= -->			
 	<Action id="setintellibritemode">
 		<Name>Set Intellibrite Mode</Name>
 		<CallbackMethod>setIntellibriteMode</CallbackMethod>

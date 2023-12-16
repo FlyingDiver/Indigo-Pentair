@@ -1,130 +1,234 @@
 <?xml version="1.0"?>
 <Devices>
 	<!-- ========================================================================= -->
-	<Device type="relay" id="PoolSpaRelay">
-		<Name>Pool or Spa Relay</Name>
+	<Device type="relay" id="circuit">
+		<Name>Intellitouch Circuit</Name>
 		<ConfigUI>
 			<Field id="circuitselect" type="menu">
 				<Label>Select Circuit:</Label>
-				<List>
-					<Option value="PUMP">Pool</Option>
-					<Option value="SPA">Spa</Option>
-				</List>
+				<List class="self" method="genAuxCircuitList"/>
 			</Field>
 		</ConfigUI>
-		<States>
-			<State id="Temperature">
-				<ValueType>Integer</ValueType>
-				<TriggerLabel>Temperature Changed</TriggerLabel>
-				<TriggerLabelPrefix>Temperature Changed To</TriggerLabelPrefix>
-				<ControlPageLabel>Temperature</ControlPageLabel>
-				<ControlPageLabelPrefix>Temperature is</ControlPageLabelPrefix>
-			</State>
-			<State id="SetPoint">
-				<ValueType>Integer</ValueType>
-				<TriggerLabel>Set Point Changed</TriggerLabel>
-				<TriggerLabelPrefix>Set Point Changed To</TriggerLabelPrefix>
-				<ControlPageLabel>Set Point</ControlPageLabel>
-				<ControlPageLabelPrefix>Set Point is</ControlPageLabelPrefix>
-			</State>
-		</States>
 	</Device>
 	
-	<Device type="custom" id="PoolSpaCustom">
-		<Name>Pool or Spa Custom (Displays Temp and Set Point)</Name>
+	<Device type="thermostat" id="heater">
+		<Name>Heater</Name>
 		<ConfigUI>
 			<Field id="circuitselect" type="menu">
-				<Label>Select Circuit:</Label>
+				<Label>Pool/Spa:</Label>
 				<List>
-					<Option value="PUMP">Pool</Option>
-					<Option value="SPA">Spa</Option>
+					<Option value="POOLHT">Pool Heat</Option>
+					<Option value="SPAHT">Spa Heat</Option>
+				</List>
+			</Field>
+			<Field type="checkbox" id="SupportsCoolSetpoint" defaultValue="False" hidden="True">
+				<Label>Supports Cool Setpoint</Label>
+				<Description>Cool Setpoint not relevant for Pool Heaters</Description>
+			</Field>			
+			<Field type="checkbox" id="ShowCoolHeatEquipmentStateUI" defaultValue="True" hidden="True">
+				<Label>Show Equipment State</Label>
+				<Description>Equipment State not available for Pool Heaters</Description>
+			</Field>		
+			<Field type="checkbox" id="SupportsHvacFanMode" defaultValue="False" hidden="True">
+				<Label>Supports HVAC Fan Mode</Label>
+				<Description>HVAC Fan Mode not relevant for Pool Heaters</Description>
+			</Field>
+		</ConfigUI>
+	</Device>
+	
+	<Device type="custom" id="system">
+		<Name>System</Name>
+		<ConfigUI>
+			<Field type="label" id="configlabel">
+				<Label>System device requires no configuration, but clicking 'OK' allows for a validation process to ensure that only 1 System Device is created.</Label>
+			</Field>
+			<Field id="circuitselect" type="menu" hidden="True" defaultValue="SYSTEM">
+				<Label>System:</Label>
+				<List>
+					<Option value="SYSTEM">System</Option>
 				</List>
 			</Field>
 		</ConfigUI>
 		<States>
-			<State id="onOffState">
-				<ValueType boolType="OnOff">Boolean</ValueType>
+			<State id="readystate">
+				<ValueType>
+					<List>
+						<Option value="startingUp">Starting Up</Option>
+						<Option value="gettingData">Getting Data</Option>
+						<Option value="ready">Connected and Ready</Option>
+					</List>
+				</ValueType>
+				<TriggerLabel>Autelis Readiness Changed</TriggerLabel>
+				<TriggerLabelPrefix>Autelis Readiness Changed To</TriggerLabelPrefix>
+				<ControlPageLabel>Autelis Readiness</ControlPageLabel>
+				<ControlPageLabelPrefix>Autelis Readiness is</ControlPageLabelPrefix>
+			</State>
+			<State id="model">
+				<ValueType>
+					<List>
+						<Option value="i5p3">i5+3</Option>
+						<Option value="i7p3">i7+3</Option>
+						<Option value="i9p3">i9+3</Option>
+						<Option value="i5p3S">i5+3S</Option>
+						<Option value="i9p3S">i9+3S</Option>
+						<Option value="i10p3S">i10+3D</Option>
+					</List>
+				</ValueType>
+				<TriggerLabel>Intellitouch Model Changed</TriggerLabel>
+				<TriggerLabelPrefix>Intellitouch Model Changed To</TriggerLabelPrefix>
+				<ControlPageLabel>Intellitouch Model</ControlPageLabel>
+				<ControlPageLabelPrefix>Intellitouch Model is</ControlPageLabelPrefix>
+			</State>
+			<State id="opmode">
+				<ValueType>
+					<List>
+						<Option value="auto">Auto</Option>
+						<Option value="service">Service/Timeout</Option>
+					</List>
+				</ValueType>
 				<TriggerLabel>Mode Changed</TriggerLabel>
 				<TriggerLabelPrefix>Mode Changed To</TriggerLabelPrefix>
 				<ControlPageLabel>Mode</ControlPageLabel>
 				<ControlPageLabelPrefix>Mode is</ControlPageLabelPrefix>
 			</State>
-			<State id="Temperature">
-				<ValueType>Integer</ValueType>
-				<TriggerLabel>Temperature Changed</TriggerLabel>
-				<TriggerLabelPrefix>Temperature Changed To</TriggerLabelPrefix>
-				<ControlPageLabel>Temperature</ControlPageLabel>
-				<ControlPageLabelPrefix>Temperature is</ControlPageLabelPrefix>
+			<State id="freeze">
+				<ValueType boolType="OnOff">Boolean</ValueType>
+				<TriggerLabel>Freeze Protect Mode Changed</TriggerLabel>
+				<TriggerLabelPrefix>Freeze Protect Mode Changed To</TriggerLabelPrefix>
+				<ControlPageLabel>Freeze Protect Mode</ControlPageLabel>
+				<ControlPageLabelPrefix>Freeze Protect Mode is</ControlPageLabelPrefix>
 			</State>
-			<State id="SetPoint">
-				<ValueType>Integer</ValueType>
-				<TriggerLabel>Set Point Changed</TriggerLabel>
-				<TriggerLabelPrefix>Set Point Changed To</TriggerLabelPrefix>
-				<ControlPageLabel>Set Point</ControlPageLabel>
-				<ControlPageLabelPrefix>Set Point is</ControlPageLabelPrefix>
+			<State id="water_sensor">
+				<ValueType>
+					<List>
+						<Option value="ok">Ok</Option>
+						<Option value="error">Error</Option>
+					</List>
+				</ValueType>
+				<TriggerLabel>Water Sensor Status Changed</TriggerLabel>
+				<TriggerLabelPrefix>Water Sensor Status Changed To</TriggerLabelPrefix>
+				<ControlPageLabel>Water Sensor Status</ControlPageLabel>
+				<ControlPageLabelPrefix>Water Sensor Status is</ControlPageLabelPrefix>
 			</State>
+			<State id="solar_sensor">
+				<ValueType>
+					<List>
+						<Option value="ok">Ok</Option>
+						<Option value="error">Error</Option>
+					</List>
+				</ValueType>
+				<TriggerLabel>Solar Sensor Status Changed</TriggerLabel>
+				<TriggerLabelPrefix>Solar Sensor Status Changed To</TriggerLabelPrefix>
+				<ControlPageLabel>Solar Sensor Status</ControlPageLabel>
+				<ControlPageLabelPrefix>Solar Sensor Status is</ControlPageLabelPrefix>
+			</State>
+			<State id="air_sensor">
+				<ValueType>
+					<List>
+						<Option value="ok">Ok</Option>
+						<Option value="error">Error</Option>
+					</List>
+				</ValueType>
+				<TriggerLabel>Air Sensor Status Changed</TriggerLabel>
+				<TriggerLabelPrefix>Air Sensor Status Changed To</TriggerLabelPrefix>
+				<ControlPageLabel>Air Sensor Status</ControlPageLabel>
+				<ControlPageLabelPrefix>Air Sensor Status is</ControlPageLabelPrefix>
+			</State>
+			<State id="water_sensor_2">
+				<ValueType>
+					<List>
+						<Option value="ok">Ok</Option>
+						<Option value="error">Error</Option>
+					</List>
+				</ValueType>
+				<TriggerLabel>Water Sensor 2 Status Changed</TriggerLabel>
+				<TriggerLabelPrefix>Water Sensor 2 Status Changed To</TriggerLabelPrefix>
+				<ControlPageLabel>Water Sensor 2 Status</ControlPageLabel>
+				<ControlPageLabelPrefix>Water 2 Sensor Status is</ControlPageLabelPrefix>
+			</State>
+			<State id="solar_sensor_2">
+				<ValueType>
+					<List>
+						<Option value="ok">Ok</Option>
+						<Option value="error">Error</Option>
+					</List>
+				</ValueType>
+				<TriggerLabel>Solar Sensor Status 2 Changed</TriggerLabel>
+				<TriggerLabelPrefix>Solar Sensor 2 Status Changed To</TriggerLabelPrefix>
+				<ControlPageLabel>Solar Sensor 2 Status</ControlPageLabel>
+				<ControlPageLabelPrefix>Solar 2 Sensor Status is</ControlPageLabelPrefix>
+			</State>			
+			<State id="version">
+				<ValueType>String</ValueType>
+				<TriggerLabel>Autelis Version Changed</TriggerLabel>
+				<TriggerLabelPrefix>Autelis Version Changed To</TriggerLabelPrefix>
+				<ControlPageLabel>Autelis Version</ControlPageLabel>
+				<ControlPageLabelPrefix>Autelis Version is</ControlPageLabelPrefix>
+			</State>			
+			<State id="airtemp">
+				<ValueType>Integer</ValueType>
+				<TriggerLabel>Air Temperature Changed</TriggerLabel>
+				<TriggerLabelPrefix>Air Temperature Changed To</TriggerLabelPrefix>
+				<ControlPageLabel>Air Temperature</ControlPageLabel>
+				<ControlPageLabelPrefix>Air Temperature is</ControlPageLabelPrefix>
+			</State>			
+			<State id="solartemp">
+				<ValueType>Integer</ValueType>
+				<TriggerLabel>Solar Temperature Changed</TriggerLabel>
+				<TriggerLabelPrefix>Solar Temperature Changed To</TriggerLabelPrefix>
+				<ControlPageLabel>Solar Temperature</ControlPageLabel>
+				<ControlPageLabelPrefix>Solar Temperature is</ControlPageLabelPrefix>
+			</State>			
+			<State id="chlorname">
+				<ValueType>String</ValueType>
+				<TriggerLabel>Chlorinator Type Changed</TriggerLabel>
+				<TriggerLabelPrefix>Chlorinator Type Changed To</TriggerLabelPrefix>
+				<ControlPageLabel>Chlorinator Type</ControlPageLabel>
+				<ControlPageLabelPrefix>Chlorinator Type is</ControlPageLabelPrefix>
+			</State>
+			<State id="chlorerr">
+				<ValueType>String</ValueType>
+				<TriggerLabel>Chlorinator Error Changed</TriggerLabel>
+				<TriggerLabelPrefix>Chlorinator Error Changed To</TriggerLabelPrefix>
+				<ControlPageLabel>Chlorinator Error</ControlPageLabel>
+				<ControlPageLabelPrefix>Chlorinator Error is</ControlPageLabelPrefix>
+			</State>
+			<State id="pool_chlor">
+				<ValueType>Integer</ValueType>
+				<TriggerLabel>Pool Chlorinator Level Changed</TriggerLabel>
+				<TriggerLabelPrefix>Pool Chlorinator Level Changed To</TriggerLabelPrefix>
+				<ControlPageLabel>Pool Chlorinator Level</ControlPageLabel>
+				<ControlPageLabelPrefix>Pool Chlorinator Level is</ControlPageLabelPrefix>
+			</State>
+			<State id="spa_chlor">
+				<ValueType>Integer</ValueType>
+				<TriggerLabel>Spa Chlorinator Level Changed</TriggerLabel>
+				<TriggerLabelPrefix>Spa Chlorinator Level Changed To</TriggerLabelPrefix>
+				<ControlPageLabel>Spa Chlorinator Level</ControlPageLabel>
+				<ControlPageLabelPrefix>Spa Chlorinator Level is</ControlPageLabelPrefix>
+			</State>
+			<State id="super_chlor">
+				<ValueType>Integer</ValueType>
+				<TriggerLabel>Super-Chlor Hours Remaining Changed</TriggerLabel>
+				<TriggerLabelPrefix>Super-Chlor Hours Remaining Changed To</TriggerLabelPrefix>
+				<ControlPageLabel>Super-Chlor Hours Remaining</ControlPageLabel>
+				<ControlPageLabelPrefix>Super-Chlor Hours Remaining are</ControlPageLabelPrefix>
+			</State>
+			<State id="salt">
+				<ValueType>Integer</ValueType>
+				<TriggerLabel>Salt Level Changed</TriggerLabel>
+				<TriggerLabelPrefix>Salt Level Changed To</TriggerLabelPrefix>
+				<ControlPageLabel>Salt Level</ControlPageLabel>
+				<ControlPageLabelPrefix>Salt Level is</ControlPageLabelPrefix>
+			</State>
+			<State id="temp_corr_salt">
+				<ValueType>Integer</ValueType>
+				<TriggerLabel>Temp Corrected Salt Level Changed</TriggerLabel>
+				<TriggerLabelPrefix>Temp Corrected Salt Level Changed To</TriggerLabelPrefix>
+				<ControlPageLabel>Temp Corrected Salt Level</ControlPageLabel>
+				<ControlPageLabelPrefix>Temp Corrected Salt Level is</ControlPageLabelPrefix>
+			</State>			
 		</States>
-	</Device>
-	
-	<Device type="relay" id="Circuit">
-		<Name>Auxiliary Circuit</Name>
-		<ConfigUI>
-			<Field id="circuitselect" type="menu">
-				<Label>Select Circuit:</Label>
-				<List>
-					<Option value="AUX1">Aux 1</Option>
-					<Option value="AUX2">Aux 2</Option>
-					<Option value="AUX3">Aux 3</Option>
-					<Option value="AUX4">Aux 4</Option>
-					<Option value="AUX5">Aux 5</Option>
-					<Option value="AUX6">Aux 6</Option>
-					<Option value="AUX7">Aux 7</Option>
-					<Option value="AUX8">Aux 8</Option>
-					<Option value="AUX9">Aux 9</Option>
-					<Option value="AUX10">Aux 10</Option>
-					<Option value="AUX11">Aux 11</Option>
-					<Option value="AUX12">Aux 12</Option>
-					<Option value="AUX13">Aux 13</Option>
-					<Option value="AUX14">Aux 14</Option>
-					<Option value="AUX15">Aux 15</Option>
-					<Option value="AUX16">Aux 16</Option>
-					<Option value="AUX17">Aux 17</Option>
-					<Option value="AUX18">Aux 18</Option>
-					<Option value="AUX19">Aux 19</Option>
-					<Option value="AUX20">Aux 20</Option>
-					<Option value="AUX21">Aux 21</Option>
-					<Option value="AUX22">Aux 22</Option>
-					<Option value="AUX23">Aux 23</Option>
-					<Option value="AUX24">Aux 24</Option>
-					<Option value="AUX25">Aux 25</Option>
-					<Option value="AUX26">Aux 26</Option>
-					<Option value="AUX27">Aux 27</Option>
-					<Option value="AUX28">Aux 28</Option>
-					<Option value="AUX29">Aux 29</Option>
-					<Option value="AUX30">Aux 30</Option>
-					<Option value="AUX31">Aux 31</Option>
-					<Option value="AUX32">Aux 32</Option>
-					<Option value="AUX33">Aux 33</Option>
-					<Option value="AUX34">Aux 34</Option>
-					<Option value="AUX35">Aux 35</Option>
-					<Option value="AUX36">Aux 36</Option>
-					<Option value="AUX37">Aux 37</Option>
-					<Option value="AUX38">Aux 38</Option>
-					<Option value="AUX39">Aux 39</Option>
-					<Option value="AUX40">Aux 40</Option>
-					<Option value="AUX41">Aux 41</Option>
-					<Option value="AUX42">Aux 42</Option>
-					<Option value="AUX43">Aux 43</Option>
-					<Option value="AUX44">Aux 44</Option>
-					<Option value="AUX45">Aux 45</Option>
-					<Option value="AUX46">Aux 46</Option>
-					<Option value="AUX47">Aux 47</Option>
-					<Option value="AUX48">Aux 48</Option>
-					<Option value="AUX49">Aux 49</Option>
-					<Option value="AUX50">Aux 50</Option>
-				</List>
-			</Field>
-		</ConfigUI>
 	</Device>
 </Devices>
 	
