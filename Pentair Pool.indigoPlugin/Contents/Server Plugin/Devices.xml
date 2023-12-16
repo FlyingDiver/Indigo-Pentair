@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <Devices>
-	<!-- ========================================================================= -->
 	<Device type="relay" id="circuit">
 		<Name>Intellitouch Circuit</Name>
 		<ConfigUI>

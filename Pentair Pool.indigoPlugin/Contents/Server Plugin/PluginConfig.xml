@@ -63,8 +63,7 @@
 	<Field type="separator" id="sep1" />
 
 	<Field type="checkbox" id="showDebugInfo">
-		<Label>Enable debugging:</Label>
-		<Description>(not recommended)</Description>
+		<Label>Enable debug logging:</Label>
 	</Field>
 	
 </PluginConfig>

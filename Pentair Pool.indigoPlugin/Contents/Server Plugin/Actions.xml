@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <Actions>
-	<!-- ========================================================================= -->
 	<Action id="superChlor">
 		<Name>Super-Chlorinate</Name>
 		<CallbackMethod>superChlor</CallbackMethod>
@@ -10,7 +9,6 @@
 			</Field>
 		</ConfigUI>
 	</Action>
-	<!-- ========================================================================= -->
 	<Action id="adjChlor">
 		<Name>Adjust Chlorination</Name>
 		<CallbackMethod>adjChlor</CallbackMethod>
@@ -27,7 +25,6 @@
 			</Field>
 		</ConfigUI>
 	</Action>
-	<!-- ========================================================================= -->			
 	<Action id="setintellibritemode">
 		<Name>Set Intellibrite Mode</Name>
 		<CallbackMethod>setIntellibriteMode</CallbackMethod>
@@ -50,12 +47,10 @@
 			</Field>
 		</ConfigUI>
 	</Action>
-	<!-- ========================================================================= -->
 	<Action id="intellibriteon">
 		<Name>All Intellibrite Lights On</Name>
 		<CallbackMethod>intellibriteOn</CallbackMethod>
 	</Action>
-	<!-- ========================================================================= -->
 	<Action id="intellibriteoff">
 		<Name>All Intellibrite Lights Off</Name>
 		<CallbackMethod>intellibriteOff</CallbackMethod>
