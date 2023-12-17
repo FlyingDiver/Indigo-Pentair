@@ -47,25 +47,52 @@ class Plugin(indigo.PluginBase):
         # (USUALLY, but not always, the same as the reported code)
         # what indigo variable state should be updated, a suffix for the log, and the type of processing the data requires.
         # Also, All 50 Auxiliary circuits are the same: AUXx = ("AUXx", "onOffState", "")
-        self.pentairStateMap = {"POOLHT": ("POOLHT", "hvacOperationMode", " Mode", "hmode"),
-                                "SPAHT": ("SPAHT", "hvacOperationMode", " Mode", "hmode"), "POOLSP": ("POOLHT", "setpointHeat", " Set Point", "temp"),
-                                "SPASP": ("SPAHT", "setpointHeat", " Set Point", "temp"), "AIRTMP": ("SYSTEM", "airtemp", " Air Temperature", "temp"),
-                                "POOLTMP": ("POOLHT", "temperatureInput1", " Temperature", "temp"),
-                                "SPATMP": ("SPAHT", "temperatureInput1", " Temperature", "temp"),
-                                "OPMODE": ("SYSTEM", "opmode", " Operation Mode", "ilinkOpmode")}
+        self.pentairStateMap = {
+            "POOLHT": ("POOLHT", "hvacOperationMode", " Mode", "hmode"),
+            "SPAHT": ("SPAHT", "hvacOperationMode", " Mode", "hmode"),
+            "POOLSP": ("POOLHT", "setpointHeat", " Set Point", "temp"),
+            "SPASP": ("SPAHT", "setpointHeat", " Set Point", "temp"),
+            "AIRTMP": ("SYSTEM", "airtemp", " Air Temperature", "temp"),
+            "POOLTMP": ("POOLHT", "temperatureInput1", " Temperature", "temp"),
+            "SPATMP": ("SPAHT", "temperatureInput1", " Temperature", "temp"),
+            "OPMODE": ("SYSTEM", "opmode", " Operation Mode", "ilinkOpmode")
+        }
 
         # Map of Autelis' variable names to the states used in the 'system' device type.
-        self.autelisStateMap = {"runstate": "readystate", "model": "model", "opmode": "opmode", "freeze": "freeze", "sensor1": "water_sensor",
-                                "sensor2": "solar_sensor", "sensor3": "air_sensor", "sensor4": "water_sensor_2", "sensor5": "solar_sensor_2",
-                                "version": "version", "airtemp": "airtemp", "soltemp": "solartemp", "poolsp": "pool_chlor", "spasp": "spa_chlor",
-                                "salt": "salt", "super": "super_chlor", "chlorname": "chlorname", "chlorerr": "chlorerr"}
+        self.autelisStateMap = {
+            "runstate": "readystate",
+            "model": "model",
+            "opmode": "opmode",
+            "freeze": "freeze",
+            "sensor1": "water_sensor",
+            "sensor2": "solar_sensor",
+            "sensor3": "air_sensor",
+            "sensor4": "water_sensor_2",
+            "sensor5": "solar_sensor_2",
+            "version": "version",
+            "airtemp": "airtemp",
+            "soltemp": "solartemp",
+            "poolsp": "pool_chlor",
+            "spasp": "spa_chlor",
+            "salt": "salt",
+            "super": "super_chlor",
+            "chlorname": "chlorname",
+            "chlorerr": "chlorerr"
+        }
 
         # similar to self.autelisStateMap, but since info from the temp node in status.xml may refer to pool heater, spa heater or system,
         # the values in this dictionary are a tuple indicating the device (by circuit code) and the variable name
-        self.autelisTempMap = {"poolht": ("POOLHT", "hvacOperationMode"), "spaht": ("SPAHT", "hvacOperationMode"),
-                               "htstatus": ("POOLHT", "hvacHeaterIsOn"), "poolsp": ("POOLHT", "setpointHeat"), "spasp": ("SPAHT", "setpointHeat"),
-                               "pooltemp": ("POOLHT", "temperatureInput1"), "spatemp": ("SPAHT", "temperatureInput1"),
-                               "airtemp": ("SYSTEM", "airtemp"), "soltemp": ("SYSTEM", "solartemp")}
+        self.autelisTempMap = {
+            "poolht": ("POOLHT", "hvacOperationMode"),
+           "spaht": ("SPAHT", "hvacOperationMode"),
+           "htstatus": ("POOLHT", "hvacHeaterIsOn"),
+           "poolsp": ("POOLHT", "setpointHeat"),
+           "spasp": ("SPAHT", "setpointHeat"),
+           "pooltemp": ("POOLHT", "temperatureInput1"),
+           "spatemp": ("SPAHT", "temperatureInput1"),
+           "airtemp": ("SYSTEM", "airtemp"),
+           "soltemp": ("SYSTEM", "solartemp")
+        }
 
     ##############################################################################################
     # Non-Required Methods (but still defined by Indigo)
@@ -122,7 +149,13 @@ class Plugin(indigo.PluginBase):
     def deviceStartComm(self, dev):
         self.logger.debug("deviceStartComm called")
         circuitcode = dev.pluginProps["circuitselect"]
-        self.circuit_dev[dev.pluginProps["circuitselect"]] = dev
+
+        if not dev.address or dev.address == "":
+            newProps = dev.pluginProps
+            newProps.update({"address": circuitcode})
+            dev.replacePluginPropsOnServer(newProps)
+
+        self.circuit_dev[dev.pluginProps["circuitselect"]] = dev.id
         self.logger.debug("Just added: " + circuitcode + " to circuitdev")
         if dev.deviceTypeId == "circuit":
             self.commQueue.append(circuitcode + " ?")
@@ -181,7 +214,7 @@ class Plugin(indigo.PluginBase):
                     from_pentair = self.conn.readline().decode('ascii')
                     if len(from_pentair) > 3:
                         self.logger.debug(f"From Pentair: {from_pentair[:-1]}")  # removes last character (CR)
-                        self.parseToServer(from_pentair[:-1])
+                        self.parse_ilink(from_pentair[:-1])
                     if len(self.commQueue) > 0:
                         command = self.commQueue.pop(0)
                         if self.pluginPrefs['interface'] == 'autelis':
@@ -210,13 +243,13 @@ class Plugin(indigo.PluginBase):
         except Exception as e:
             self.logger.error(f"Error in runConcurrentThread: {e}")
 
-    def parseToServer(self, frompi):
+    def parse_ilink(self, from_pi):
         # Looks Messy, but it's really just a bunch of tests to see what kind of statement it is
         # and then handling it - start with simple statements, so we can just move on from there.
         # Start by checking for errors...
-        if frompi[0] == "?":
-            self.errorLog("Pentair Error: " + frompi[1:])
-        elif frompi[:3] == "!00":
+        if from_pi[0] == "?":
+            self.errorLog("Pentair Error: " + from_pi[1:])
+        elif from_pi[:3] == "!00":
             # Now that we know this is giving status of a circuit, we can decide
             # which circuit and update the state on server. If not defined, just bail out and discard the response.
             # Now, just move on to parsing out which circuit does what.
@@ -224,9 +257,9 @@ class Plugin(indigo.PluginBase):
             #
             # Responses from Pentair iLink and Autellis adapter vary slightly on spacing, so reformat the response to match
             if self.pluginPrefs['interface'] == 'autelis':
-                frompi = frompi.replace("=", " = ")
-            frompi = frompi.replace("PUMP", "POOL")
-            resplist = frompi.split()
+                from_pi = from_pi.replace("=", " = ")
+            from_pi = from_pi.replace("PUMP", "POOL")
+            resplist = from_pi.split()
             responseCode = resplist[1]
             # Different reported circuits all map to different devices, variable names and have different data formats
             # Basically, look up processing instructions from a dictionary, and process.
@@ -257,8 +290,14 @@ class Plugin(indigo.PluginBase):
 
             # With all data now correctly formatted, just check if the circuit's in use, update and log the changes.
             if circuitcode in self.circuit_dev:
-                servdev = self.circuit_dev[circuitcode]
+                servdev = indigo.devices[self.circuit_dev[circuitcode]]
                 servdev.updateStateOnServer(statecode, value=repvalue)
+                if dataproc == "hmode":
+                    if repvalue == 0:
+                        servdev.updateStateImageOnServer(indigo.kStateImageSel.HvacOff)
+                    else:
+                        servdev.updateStateImageOnServer(indigo.kStateImageSel.HvacHeating)
+
                 if 'temp' in statecode:
                     if self.logTemps:
                         self.logger.info(servdev.name + suffix + " is " + str(repvalue))
@@ -434,7 +473,7 @@ class Plugin(indigo.PluginBase):
         autdata = ET.XML(req.text)
         if "SYSTEM" in self.circuit_dev:
             self.logger.debug("'System' Device Available")
-            dev = self.circuit_dev["SYSTEM"]
+            dev = indigo.devices[self.circuit_dev["SYSTEM"]]
             for child in autdata.find('system'):
                 if child.tag in self.autelisStateMap:
                     statecode = self.autelisStateMap[child.tag]
@@ -480,11 +519,11 @@ class Plugin(indigo.PluginBase):
                         stateDict = self.decodeHeatStatus(child.text)
                         for circuit in stateDict:
                             if circuit in self.circuit_dev:
-                                dev = self.circuit_dev[circuit]
+                                dev = indigo.devices[self.circuit_dev[circuit]]
                                 repvalue = stateDict[circuit]
                                 dev.updateStateOnServer(statecode, value=repvalue)
                     elif circuitcode in self.circuit_dev:
-                        dev = self.circuit_dev[circuitcode]
+                        dev = indigo.devices[self.circuit_dev[circuitcode]]
                         curstate = dev.states[statecode]
                         if curstate == repvalue:
                             self.logger.debug(dev.name + ": " + statecode + " is " + str(repvalue))
@@ -501,7 +540,7 @@ class Plugin(indigo.PluginBase):
         autdata = ET.XML(req.text)
         if "SYSTEM" in self.circuit_dev:
             self.logger.debug("'System' Device Available")
-            dev = self.circuit_dev["SYSTEM"]
+            dev = indigo.devices[self.circuit_dev["SYSTEM"]]
             for child in autdata.find('chlor'):
                 self.logger.debug("Child: " + str(child.tag))
                 if child.tag in self.autelisStateMap:
